@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubelab-agent-deployment
+  namespace: kubelab
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kubelab-agent
+  template:
+    metadata:
+      labels:
+        app: kubelab-agent
+    spec:
+      containers:
+      - name: kubelab-agent
+        image: kubelab-agent:local
+        ports:
+        - containerPort: 8376
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kubelab-agent-service
+  namespace: kubelab
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 8376
+    targetPort: 8376
+  selector:
+    app: kubelab-agent

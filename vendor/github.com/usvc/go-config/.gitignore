@@ -1,0 +1,5 @@
+.ssh
+bin
+build
+c.out
+vendor
