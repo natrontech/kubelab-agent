@@ -1,6 +1,0 @@
-LICENSE
-bin
-build
-deploy
-vendor
-./*.yml
