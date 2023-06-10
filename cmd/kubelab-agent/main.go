@@ -39,14 +39,46 @@ func checkHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Check if /home/kubelab-agent/check.sh exists
-	if _, err := os.Stat("/home/kubelab-agent/check.sh"); os.IsNotExist(err) {
+	// Check if /home/kubelab-agent/.kubelab/check.sh exists
+	if _, err := os.Stat("/home/kubelab-agent/.kubelab/check.sh"); os.IsNotExist(err) {
 		http.Error(w, "Script does not exist", http.StatusInternalServerError)
 		return
 	}
 
 	// Execute the shell script
-	cmd := exec.Command("/bin/sh", "-c", "/home/kubelab-agent/check.sh")
+	cmd := exec.Command("/bin/sh", "-c", "/home/kubelab-agent/.kubelab/check.sh")
+	err := cmd.Run()
+	if err != nil {
+		http.Error(w, "Error executing shell script", http.StatusInternalServerError)
+		return
+	}
+
+	// Check the exit status
+	exitCode := cmd.ProcessState.ExitCode()
+	if exitCode != 0 {
+		http.Error(w, "Script returned non-zero exit status", http.StatusInternalServerError)
+		return
+	}
+
+	// Return HTTP response with status code 200 and "Everything OK" as response body
+	w.WriteHeader(http.StatusOK)
+	fmt.Fprintf(w, "Everything OK")
+}
+
+func bootstrapHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	// Check if /home/kubelab-agent/.kubelab/bootstrap.sh exists
+	if _, err := os.Stat("/home/kubelab-agent/.kubelab/bootstrap.sh"); os.IsNotExist(err) {
+		http.Error(w, "Script does not exist", http.StatusInternalServerError)
+		return
+	}
+
+	// Execute the shell script
+	cmd := exec.Command("/bin/sh", "-c", "/home/kubelab-agent/.kubelab/bootstrap.sh")
 	err := cmd.Run()
 	if err != nil {
 		http.Error(w, "Error executing shell script", http.StatusInternalServerError)
@@ -149,6 +181,9 @@ func runE(_ *cobra.Command, _ []string) error {
 
 	// check endpoint
 	router.Handle("/check", http.HandlerFunc(checkHandler))
+
+	// bootstrap endpoint
+	router.Handle("/bootstrap", http.HandlerFunc(bootstrapHandler))
 
 	// this is the endpoint for serving xterm.js assets
 	depenenciesDirectory := path.Join(workingDirectory, "./node_modules")
