@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: kubelab-agent
-        image: kubelab-agent:local
+        image: ghcr.io/natrontech/kubelab-agent:v1.0.0-rc.1
         ports:
         - containerPort: 8376
 ---

@@ -58,8 +58,11 @@ RUN curl https://raw.githubusercontent.com/cri-o/cri-o/main/scripts/get | bash
 
 COPY --from=backend /go/src/kubelab-agent/bin/kubelab-agent /app/kubelab-agent
 RUN ln -s /app/kubelab-agent /usr/bin/kubelab-agent
+
 RUN groupadd -g 1001 kubelab-agent
 RUN useradd -s /bin/bash -u 1001 -g 1001 -m kubelab-agent
+
+RUN mkdir -p /home/kubelab-agent/.kube
 
 # Autocompletion for kubectl
 RUN echo 'source <(kubectl completion bash)' >>/home/kubelab-agent/.bashrc
@@ -73,8 +76,8 @@ RUN echo 'source <(podman completion bash)' >>/home/kubelab-agent/.bashrc
 # Autocompletion for crio
 RUN echo 'source <(crio completion bash)' >>/home/kubelab-agent/.bashrc
 
-RUN mkdir -p /home/kubelab-agent
 RUN chown kubelab-agent:kubelab-agent /app -R
+RUN chown kubelab-agent:kubelab-agent /home/kubelab-agent -R
 WORKDIR /home/kubelab-agent
 ENV WORKDIR=/app
 USER kubelab-agent
