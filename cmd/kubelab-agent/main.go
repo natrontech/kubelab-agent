@@ -49,14 +49,14 @@ func checkHandler(w http.ResponseWriter, r *http.Request) {
 	cmd := exec.Command("/bin/sh", "-c", "/home/kubelab-agent/.kubelab/check.sh")
 	err := cmd.Run()
 	if err != nil {
-		http.Error(w, "Error executing shell script", http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
 	// Check the exit status
 	exitCode := cmd.ProcessState.ExitCode()
 	if exitCode != 0 {
-		http.Error(w, "Script returned non-zero exit status", http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
@@ -81,14 +81,14 @@ func bootstrapHandler(w http.ResponseWriter, r *http.Request) {
 	cmd := exec.Command("/bin/sh", "-c", "/home/kubelab-agent/.kubelab/bootstrap.sh")
 	err := cmd.Run()
 	if err != nil {
-		http.Error(w, "Error executing shell script", http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
 	// Check the exit status
 	exitCode := cmd.ProcessState.ExitCode()
 	if exitCode != 0 {
-		http.Error(w, "Script returned non-zero exit status", http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
