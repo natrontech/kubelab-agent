@@ -14,6 +14,7 @@ import (
 	"github.com/natrontech/kubelab-agent/internal/log"
 	"github.com/natrontech/kubelab-agent/pkg/xtermjs"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
+	"github.com/rs/cors"
 	"github.com/spf13/cobra"
 )
 
@@ -202,11 +203,21 @@ func runE(_ *cobra.Command, _ []string) error {
 		}
 	}(time.NewTicker(time.Second * 30))
 
+	// create a CORS handler
+	c := cors.New(cors.Options{
+		AllowedOrigins:   allowedHostnames, // AllowedOrigins is a list of origins a cross-domain request can be executed from
+		AllowCredentials: true,
+		AllowedHeaders:   []string{"Authorization", "Content-Type"}, // Your server headers here...
+	})
+
+	// wrap your router with CORS handler
+	handler := c.Handler(router)
+
 	// listen
 	listenOnAddress := fmt.Sprintf("%s:%v", serverAddress, serverPort)
 	server := http.Server{
 		Addr:    listenOnAddress,
-		Handler: addIncomingRequestLogging(router),
+		Handler: addIncomingRequestLogging(handler),
 	}
 
 	log.Infof("starting server on interface:port '%s'...", listenOnAddress)
