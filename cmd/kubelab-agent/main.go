@@ -206,6 +206,7 @@ func runE(_ *cobra.Command, _ []string) error {
 	// create a CORS handler
 	c := cors.New(cors.Options{
 		AllowedOrigins:   allowedHostnames, // AllowedOrigins is a list of origins a cross-domain request can be executed from
+		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowCredentials: true,
 		AllowedHeaders:   []string{"Authorization", "Content-Type"}, // Your server headers here...
 	})
