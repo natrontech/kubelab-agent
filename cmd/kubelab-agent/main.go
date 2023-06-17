@@ -66,6 +66,28 @@ func checkHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Everything OK")
 }
 
+func bootstrap() error {
+	// Check if /home/kubelab-agent/.kubelab/bootstrap.sh exists
+	if _, err := os.Stat("/home/kubelab-agent/.kubelab/bootstrap.sh"); os.IsNotExist(err) {
+		return err
+	}
+
+	// Execute the shell script
+	cmd := exec.Command("/bin/sh", "-c", "/home/kubelab-agent/.kubelab/bootstrap.sh")
+	err := cmd.Run()
+	if err != nil {
+		return err
+	}
+
+	// Check the exit status
+	exitCode := cmd.ProcessState.ExitCode()
+	if exitCode != 0 {
+		return err
+	}
+
+	return nil
+}
+
 func bootstrapHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
@@ -219,6 +241,14 @@ func runE(_ *cobra.Command, _ []string) error {
 	server := http.Server{
 		Addr:    listenOnAddress,
 		Handler: addIncomingRequestLogging(handler),
+	}
+
+	// bootstrap
+	if err := bootstrap(); err != nil {
+		log.Errorf("failed to bootstrap: %s", err)
+		return err
+	} else {
+		log.Info("bootstrapped")
 	}
 
 	log.Infof("starting server on interface:port '%s'...", listenOnAddress)
