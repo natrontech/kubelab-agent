@@ -79,6 +79,10 @@ RUN echo 'source <(crio completion bash)' >>/home/kubelab-agent/.bashrc
 RUN chown kubelab-agent:kubelab-agent /app -R
 RUN chown kubelab-agent:kubelab-agent /home/kubelab-agent -R
 WORKDIR /home/kubelab-agent
+
+COPY ./assets/.vimrc /home/kubelab-agent/.vimrc
+RUN chown kubelab-agent:kubelab-agent /home/kubelab-agent/.vimrc
+
 ENV WORKDIR=/app
 USER kubelab-agent
 ENTRYPOINT ["/app/kubelab-agent"]
