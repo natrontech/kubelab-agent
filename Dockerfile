@@ -86,7 +86,8 @@ RUN chown kubelab-agent:kubelab-agent /home/kubelab-agent/.vimrc
 # add export TERM=xterm
 RUN echo 'export TERM=xterm' >>/home/kubelab-agent/.bashrc
 
-RUN echo 'export PS1="\u@\h:\W$ "' >> ~/.bashrc
+# replace existing PS1 with a simpler one
+RUN echo 'export PS1="\[\e[32m\]\u\[\e[m\]@\[\e[33m\]\h\[\e[m\]:\[\e[36m\]\w\[\e[m\]\\$ "' >>/home/kubelab-agent/.bashrc
 
 ENV WORKDIR=/app
 USER kubelab-agent
