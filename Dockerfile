@@ -53,9 +53,6 @@ RUN curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/s
 RUN curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash && \
   mv ./kustomize /usr/local/bin/kustomize
 
-# Installing cri-o
-RUN curl https://raw.githubusercontent.com/cri-o/cri-o/main/scripts/get | bash
-
 COPY --from=backend /go/src/kubelab-agent/bin/kubelab-agent /app/kubelab-agent
 RUN ln -s /app/kubelab-agent /usr/bin/kubelab-agent
 
@@ -71,10 +68,6 @@ RUN echo 'alias k=kubectl' >>/home/kubelab-agent/.bashrc
 RUN echo 'source <(helm completion bash)' >>/home/kubelab-agent/.bashrc
 # Autocompletion for kustomize
 RUN echo 'source <(kustomize completion bash)' >>/home/kubelab-agent/.bashrc
-# Autocompletion for podman
-RUN echo 'source <(podman completion bash)' >>/home/kubelab-agent/.bashrc
-# Autocompletion for crio
-RUN echo 'source <(crio completion bash)' >>/home/kubelab-agent/.bashrc
 
 RUN chown kubelab-agent:kubelab-agent /app -R
 RUN chown kubelab-agent:kubelab-agent /home/kubelab-agent -R
