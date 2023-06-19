@@ -83,6 +83,9 @@ WORKDIR /home/kubelab-agent
 COPY ./assets/.vimrc /home/kubelab-agent/.vimrc
 RUN chown kubelab-agent:kubelab-agent /home/kubelab-agent/.vimrc
 
+# add export TERM=xterm
+RUN echo 'export TERM=xterm' >>/home/kubelab-agent/.bashrc
+
 ENV WORKDIR=/app
 USER kubelab-agent
 ENTRYPOINT ["/app/kubelab-agent"]
