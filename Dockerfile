@@ -84,6 +84,10 @@ RUN echo 'export HISTFILE=/home/kubelab-agent/.bash_history' >>/home/kubelab-age
 RUN touch /home/kubelab-agent/.bash_history
 RUN chown kubelab-agent:kubelab-agent /home/kubelab-agent/.bash_history
 RUN chmod 644 /home/kubelab-agent/.bash_history
+# shopt -s histappend
+RUN echo 'shopt -s histappend' >>/home/kubelab-agent/.bashrc
+# PROMPT_COMMAND="history -a;$PROMPT_COMMAND"
+RUN echo 'PROMPT_COMMAND="history -a;$PROMPT_COMMAND"' >>/home/kubelab-agent/.bashrc
 
 # replace existing PS1 with a shorter to username@kubelab-agent and current working directory
 RUN echo 'export PS1="\[\033[01;34m\]\u@kubelab-agent\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\\$ "' >>/home/kubelab-agent/.bashrc
