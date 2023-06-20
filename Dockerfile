@@ -79,6 +79,12 @@ RUN chown kubelab-agent:kubelab-agent /home/kubelab-agent/.vimrc
 # add export TERM=xterm
 RUN echo 'export TERM=xterm' >>/home/kubelab-agent/.bashrc
 
+# enable history
+RUN echo 'export HISTFILE=/home/kubelab-agent/.bash_history' >>/home/kubelab-agent/.bashrc
+RUN touch /home/kubelab-agent/.bash_history
+RUN chown kubelab-agent:kubelab-agent /home/kubelab-agent/.bash_history
+RUN chmod 644 /home/kubelab-agent/.bash_history
+
 # replace existing PS1 with a shorter to username@kubelab-agent and current working directory
 RUN echo 'export PS1="\[\033[01;34m\]\u@kubelab-agent\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\\$ "' >>/home/kubelab-agent/.bashrc
 
