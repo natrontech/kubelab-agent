@@ -40,14 +40,14 @@ func checkHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Check if /home/kubelab-agent/.kubelab/check.sh exists
-	if _, err := os.Stat("/home/kubelab-agent/.kubelab/check.sh"); os.IsNotExist(err) {
+	// Check if /scripts/check.sh exists
+	if _, err := os.Stat("/scripts/check.sh"); os.IsNotExist(err) {
 		http.Error(w, "Script does not exist", http.StatusInternalServerError)
 		return
 	}
 
 	// Execute the shell script and capture combined output
-	cmd := exec.Command("/bin/sh", "-c", "/home/kubelab-agent/.kubelab/check.sh")
+	cmd := exec.Command("/bin/sh", "-c", "/scripts/check.sh")
 	output, err := cmd.CombinedOutput()
 	if err != nil {
 		http.Error(w, string(output), http.StatusInternalServerError)
@@ -67,13 +67,13 @@ func checkHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func bootstrap() error {
-	// Check if /home/kubelab-agent/.kubelab/bootstrap.sh exists
-	if _, err := os.Stat("/home/kubelab-agent/.kubelab/bootstrap.sh"); os.IsNotExist(err) {
+	// Check if /scripts/bootstrap.sh exists
+	if _, err := os.Stat("/scripts/bootstrap.sh"); os.IsNotExist(err) {
 		return err
 	}
 
 	// Execute the shell script
-	cmd := exec.Command("/bin/sh", "-c", "/home/kubelab-agent/.kubelab/bootstrap.sh")
+	cmd := exec.Command("/bin/sh", "-c", "/scripts/bootstrap.sh")
 	err := cmd.Run()
 	if err != nil {
 		return err
@@ -94,14 +94,14 @@ func bootstrapHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Check if /home/kubelab-agent/.kubelab/bootstrap.sh exists
-	if _, err := os.Stat("/home/kubelab-agent/.kubelab/bootstrap.sh"); os.IsNotExist(err) {
+	// Check if /scripts/bootstrap.sh exists
+	if _, err := os.Stat("/home/scripts/bootstrap.sh"); os.IsNotExist(err) {
 		http.Error(w, "Script does not exist", http.StatusInternalServerError)
 		return
 	}
 
 	// Execute the shell script
-	cmd := exec.Command("/bin/sh", "-c", "/home/kubelab-agent/.kubelab/bootstrap.sh")
+	cmd := exec.Command("/bin/sh", "-c", "/scripts/bootstrap.sh")
 	err := cmd.Run()
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
