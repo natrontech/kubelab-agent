@@ -46,24 +46,24 @@ func checkHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Execute the shell script
+	// Execute the shell script and capture combined output
 	cmd := exec.Command("/bin/sh", "-c", "/home/kubelab-agent/.kubelab/check.sh")
-	err := cmd.Run()
+	output, err := cmd.CombinedOutput()
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		http.Error(w, string(output), http.StatusInternalServerError)
 		return
 	}
 
 	// Check the exit status
 	exitCode := cmd.ProcessState.ExitCode()
 	if exitCode != 0 {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		http.Error(w, string(output), http.StatusInternalServerError)
 		return
 	}
 
 	// Return HTTP response with status code 200 and "Everything OK" as response body
 	w.WriteHeader(http.StatusOK)
-	fmt.Fprintf(w, "Everything OK")
+	fmt.Fprintf(w, "Everything OK\n%s", output)
 }
 
 func bootstrap() error {
