@@ -24,4 +24,4 @@ Installed tools:
 - bash-completion
 - podman
 
-It executes a script from `/home/kubelab-agent/check.sh` when `GET /check` is called.
+It executes a script from `/scripts/check.sh` when `GET /check` is called.

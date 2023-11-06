@@ -95,6 +95,9 @@ RUN echo 'export PS1="\[\033[01;34m\]\u\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\
 RUN mkdir -p /home/kubelab-agent/exercise
 RUN chown kubelab-agent:kubelab-agent /home/kubelab-agent/exercise
 
+# /home/kubelab-agent/exercise should be the default entrypoint
+RUN echo 'cd /home/kubelab-agent/exercise' >>/home/kubelab-agent/.bashrc
+
 ENV WORKDIR=/app
 USER kubelab-agent
 ENTRYPOINT ["/app/kubelab-agent"]
