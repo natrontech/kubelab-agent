@@ -74,7 +74,7 @@ var conf = config.Map{
 		Shorthand: "p",
 	},
 	"workdir": &config.String{
-		Default:   ".",
+		Default:   "./exercise",
 		Usage:     "working directory",
 		Shorthand: "w",
 	},

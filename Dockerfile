@@ -92,6 +92,9 @@ RUN echo 'PROMPT_COMMAND="history -a;$PROMPT_COMMAND"' >>/home/kubelab-agent/.ba
 # replace existing PS1 with a shorter to kubelab-agent and current working directory
 RUN echo 'export PS1="\[\033[01;34m\]\u\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\\$ "' >> /home/kubelab-agent/.bashrc
 
+RUN mkdir -p /home/kubelab-agent/exercise
+RUN chown kubelab-agent:kubelab-agent /home/kubelab-agent/exercise
+
 ENV WORKDIR=/app
 USER kubelab-agent
 ENTRYPOINT ["/app/kubelab-agent"]
