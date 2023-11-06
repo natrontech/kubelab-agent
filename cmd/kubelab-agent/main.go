@@ -95,7 +95,7 @@ func bootstrapHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Check if /scripts/bootstrap.sh exists
-	if _, err := os.Stat("/home/scripts/bootstrap.sh"); os.IsNotExist(err) {
+	if _, err := os.Stat("/scripts/bootstrap.sh"); os.IsNotExist(err) {
 		http.Error(w, "Script does not exist", http.StatusInternalServerError)
 		return
 	}
