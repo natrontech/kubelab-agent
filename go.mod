@@ -2,7 +2,7 @@ module github.com/natrontech/kubelab-agent
 
 go 1.20
 
-require github.com/gorilla/websocket v1.5.0
+require github.com/gorilla/websocket v1.5.1
 
 require (
 	github.com/beorn7/perks v1.0.1 // indirect
@@ -26,7 +26,8 @@ require (
 	github.com/spf13/viper v1.7.1 // indirect
 	github.com/stretchr/testify v1.8.1 // indirect
 	github.com/subosito/gotenv v1.2.0 // indirect
-	golang.org/x/text v0.8.0 // indirect
+	golang.org/x/net v0.17.0 // indirect
+	golang.org/x/text v0.13.0 // indirect
 	google.golang.org/protobuf v1.30.0 // indirect
 	gopkg.in/ini.v1 v1.51.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
@@ -41,5 +42,5 @@ require (
 	github.com/sirupsen/logrus v1.9.2
 	github.com/spf13/cobra v1.7.0
 	github.com/usvc/go-config v0.4.1
-	golang.org/x/sys v0.6.0 // indirect
+	golang.org/x/sys v0.13.0 // indirect
 )
