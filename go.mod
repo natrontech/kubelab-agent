@@ -36,7 +36,7 @@ require (
 require (
 	github.com/creack/pty v1.1.18
 	github.com/google/uuid v1.3.0
-	github.com/gorilla/mux v1.8.0
+	github.com/gorilla/mux v1.8.1
 	github.com/prometheus/client_golang v1.15.1
 	github.com/rs/cors v1.9.0
 	github.com/sirupsen/logrus v1.9.2
