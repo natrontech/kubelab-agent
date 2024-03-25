@@ -32,7 +32,7 @@ require (
 
 require (
 	github.com/creack/pty v1.1.21
-	github.com/google/uuid v1.3.0
+	github.com/google/uuid v1.6.0
 	github.com/gorilla/mux v1.8.1
 	github.com/prometheus/client_golang v1.19.0
 	github.com/rs/cors v1.9.0
